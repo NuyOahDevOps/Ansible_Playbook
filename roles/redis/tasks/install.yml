@@ -1,3 +1,13 @@
+- name: Check if Redis directory exists
+  stat:
+    path: { { redis_data_dir } }
+  register: redis_dir_result
+
+- name: Fail if Redis directory exists
+  fail:
+    msg: "Redis directory already exists"
+  when: redis_dir_result.stat.exists
+
 - name: 创建redis数据目录
   file: path={{ redis_data_dir }} state=directory
 
