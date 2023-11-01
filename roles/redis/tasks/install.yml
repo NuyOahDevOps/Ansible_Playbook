@@ -1,6 +1,6 @@
 - name: Check if Redis directory exists
   stat:
-    path: { { redis_data_dir } }
+    - path={{ redis_data_dir }}
   register: redis_dir_result
 
 - name: Fail if Redis directory exists
