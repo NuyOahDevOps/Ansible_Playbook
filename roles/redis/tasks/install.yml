@@ -17,9 +17,9 @@
 
 - name: 复制redis包到远程主机
   copy: src={{ item }} dest={{ source_dir }}
+  #loop: "{{ query('fileglob', '/data/ansible/playbook/roles/redis/files/*') }}"
   with_fileglob:
-    - /data/ansible/playbook/roles/redis/files/*
-
+    - "/data/ansible/playbook/roles/redis/files/*"
 - name: 解压包
   unarchive:
     src: /tmp/{{ redis_version }}.tar.gz
