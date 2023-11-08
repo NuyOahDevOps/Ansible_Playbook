@@ -1,0 +1,12 @@
+- name: 启动redis
+  shell: "{{ var_dir }}/bin/redis-server {{ var_dir }}/conf/redis.conf"
+  register: redis_result
+
+- name: Check redis service
+  shell: "{{ var_dir }}/bin/redis-cli -p {{ redis_port }} -a {{ redis_password }} ping"
+  register: check_result
+
+- name: Debug redis
+  debug:
+    msg: "Redis is runnning!"
+  when: "check_result.stdout is search('PONG')"

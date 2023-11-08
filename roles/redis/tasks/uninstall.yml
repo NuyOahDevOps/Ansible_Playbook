@@ -1,11 +1,9 @@
----
-- name: 停止redis服务
-  shell: "{{ var_dir }}/bin/redis-cli -a {{ redis_password }} -p {{ redis_port }} shutdown"
+- name: Stop redis
+  ansible.builtin.include: stop.yml
 
-- name: 删除相关目录
+- name: Check redis
+  ansible.builtin.include: status.yml
+
+- name: Delete redis
   shell: |
-    port={{ redis_port }}
-    state=$(netstat -tunpl | grep ${port})
-    if [ -z ${state} ]; then 
-      /bin/rm -rf /data/redis
-    fi
+    rm -rf  {{ var_dir }}

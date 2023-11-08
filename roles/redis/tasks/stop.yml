@@ -1,0 +1,7 @@
+- name: 停止redis服务
+  shell: "{{ var_dir }}/bin/redis-cli -a {{ redis_password }} -p {{ redis_port }} shutdown"
+  ignore_errors: true
+  register: stop_result
+  until: stop_result.rc == 0
+  retries: 3
+  delay: 10

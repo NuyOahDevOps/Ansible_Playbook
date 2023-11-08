@@ -1,0 +1,14 @@
+- name: Check redis status
+  shell: "{{ var_dir }}/bin/redis-cli -p {{ redis_port }} -a {{ redis_password }} ping"
+  ignore_errors: true
+  register: check_result
+
+- name: Running
+  debug:
+    msg: redis is Running
+  when: "check_result.stdout is search('PONG')"
+
+- name: Not Running
+  debug:
+    msg: redis is Not Running
+  when: "check_result.stdout is not search('PONG')"

@@ -1,0 +1,7 @@
+# test uninstall.yml
+- name: Include tasks from another YAML file
+  ansible.builtin.include: stop.yml
+
+- name: 删除相关目录
+  shell: |
+    rm -rf {{ var_dir }}

@@ -1,5 +1,13 @@
 - block:
     - include: install.yml
-      tags: ["install"]
+      tags: ["install_redis"]
     - include: uninstall.yml
-      tags: ["uninstall"]
+      tags: ["uninstall_redis"]
+    - include: start.yml
+      tags: ["start_redis"]
+    - include: stop.yml
+      tags: ["stop_redis"]
+    - include: status.yml
+      tags: ["status_redis"]
+    - include: test.yml
+      tags: ["test_redis"]

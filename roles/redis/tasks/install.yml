@@ -15,13 +15,21 @@
 - name: 创建redis目录
   file: path={{ redis_log_dir }} state=directory
 
+#- name: 复制redis包到远程主机
+#  copy: src={{ item }} dest={{ source_dir }}
+#  loop: "{{ query('fileglob', '/data/ansible/playbook/roles/redis/files/*') }}"
+
+#- name: 复制redis包到远程主机
+#  copy:
+#    src: "{{ item }}"
+#    dest: "{{ source_dir }}"
+#  loop: "{{ query('fileglob', 'roles/redis/files/*') }}"
 - name: 复制redis包到远程主机
-  copy: src={{ item }} dest={{ source_dir }}
-  #loop: "{{ query('fileglob', '/data/ansible/playbook/roles/redis/files/*') }}"
-  loop:
-    - lookup:
-        - with_fileglob:
-            - "/data/ansible/playbook/roles/redis/files/*"
+  synchronize:
+    checksum: true
+    src: "roles/redis/files/"
+    dest: "{{ source_dir }}"
+
 - name: 解压包
   unarchive:
     src: /tmp/{{ redis_version }}.tar.gz
@@ -45,3 +53,6 @@
 
 - name: 删除redis解压包
   file: path={{source_dir}}/{{redis_version}} state=absent
+
+- name: Check redis
+  ansible.builtin.include: status.yml
